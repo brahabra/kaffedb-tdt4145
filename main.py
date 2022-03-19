@@ -39,7 +39,7 @@ def main():
             break
         
         elif(tall == 4):
-            print("Test4")
+            getCoffeeDescribedAsFloral()
             break
         
         elif(tall == 5):
@@ -84,8 +84,25 @@ def getMostCoffePerPrice():
   #print(row)
   #con.close()
 
+def getCoffeeDescribedAsFloral():
+    cursor.execute("""SELECT BrenneriNavn, KaffeNavn
+                        FROM Kaffe 
+                            NATURAL JOIN KaffeBrentAvBrenneri
+                            NATURAL JOIN Kaffebrenneri
+                        WHERE Kaffe.Beskrivelse LIKE "%floral%" 
 
+                        UNION
 
+                        SELECT BrenneriNavn, KaffeNavn
+                        FROM Kaffesmaking
+                            NATURAL JOIN Kaffe
+                            NATURAL JOIN KaffeBrentAvBrenneri
+                            NATURAL JOIN Kaffebrenneri
+                        WHERE Kaffesmaking.Smaksnotat LIKE "%floral%"
+
+                    """)
+    row = cursor.fetchall()
+    print(row)
 
 
 main()
