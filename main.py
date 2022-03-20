@@ -1,4 +1,3 @@
-from ast import keyword
 import sqlite3
 
 con = sqlite3.connect("kaffe.db")
@@ -94,6 +93,7 @@ def getCoffeByKeyWord(keyword):
                         WHERE Kaffesmaking.Smaksnotat LIKE :keyword
 
                     """, (keyword,))
+    
     row = cursor.fetchall()
     if len(row) == 0:
         print("Det var ingen kaffer som stemte med søket ditt")
