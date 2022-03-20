@@ -95,9 +95,11 @@ def getCoffeByKeyWord(keyword):
 
                     """, (keyword,))
     row = cursor.fetchall()
-    if row == "[]":
+    if len(row) == 0:
         print("Det var ingen kaffer som stemte med søket ditt")
-    print(row)
+
+    else:
+        print(row)
 
 
 main()
