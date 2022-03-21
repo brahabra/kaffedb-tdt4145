@@ -1,15 +1,5 @@
 import sqlite3
 
-#con = sqlite3.connect("kaffe.db")
-# cursor = con.cursor()
-# cursor.execute("SELECT * FROM Bruker")
-
-# row = cursor.fetchall()
-#print("first row form table Bruker")
-#print(row)
-#cursor.execute('''INSERT INTO Bruker VALUES ("jgerigjriegjo@admin.com", "admin" ,'Admin', 'Adminsen')''')
-#con.commit()
-#con.close()
 con = sqlite3.connect("kaffe.db")
 cursor = con.cursor()
 
@@ -21,10 +11,10 @@ def main():
         print("1. Skriv en kaffesmaking")
         print("2. Vis liste over brukere som har smakt flest kaffer")
         print("3. Vis liste over kaffe sortert etter hva som gir deg mest for pengene")
-        print("4. Vis kaffer som blir beskrevet med 'floral'")
+        print("4. Skriv inn et nøkkelord og søk etter kaffer beskrevet med det nøkkelordet")
         print("5. Vis kaffer fra Rwanda og Colombia som ikke er vaskede")
         print("6. Avslutt programmet")
-        tall = int(input("Velg en option, skriv inn et tall fra 1-5:"))
+        tall = int(input("Velg en option, skriv inn et tall fra 1-5: "))
         
         if(tall == 1):
             print("Test1")
@@ -39,11 +29,12 @@ def main():
             break
         
         elif(tall == 4):
-            getCoffeeDescribedAsFloral()
+            keyword = input('Hvilket nøkkelord vil du søke etter? ')
+            getCoffeByKeyWord(keyword)
             break
         
         elif(tall == 5):
-            print("Test3")
+            print("Test5")
             break
 
         elif(tall == 6):
@@ -84,12 +75,13 @@ def getMostCoffePerPrice():
   #print(row)
   #con.close()
 
-def getCoffeeDescribedAsFloral():
+def getCoffeByKeyWord(keyword):
+    keyword = "%" + keyword + "%"
     cursor.execute("""SELECT BrenneriNavn, KaffeNavn
                         FROM Kaffe 
                             NATURAL JOIN KaffeBrentAvBrenneri
                             NATURAL JOIN Kaffebrenneri
-                        WHERE Kaffe.Beskrivelse LIKE "%floral%" 
+                        WHERE Kaffe.KaffeBeskrivelse LIKE :keyword
 
                         UNION
 
@@ -98,11 +90,16 @@ def getCoffeeDescribedAsFloral():
                             NATURAL JOIN Kaffe
                             NATURAL JOIN KaffeBrentAvBrenneri
                             NATURAL JOIN Kaffebrenneri
-                        WHERE Kaffesmaking.Smaksnotat LIKE "%floral%"
+                        WHERE Kaffesmaking.Smaksnotat LIKE :keyword
 
-                    """)
+                    """, (keyword,))
+    
     row = cursor.fetchall()
-    print(row)
+    if len(row) == 0:
+        print("Det var ingen kaffer som stemte med søket ditt etter '" + keyword[1:-1] + "'")
+
+    else:
+        print(row)
 
 
 main()
