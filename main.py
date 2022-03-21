@@ -14,7 +14,7 @@ def main():
         print("4. Skriv inn et nøkkelord og søk etter kaffer beskrevet med det nøkkelordet")
         print("5. Vis kaffer fra Rwanda og Colombia som ikke er vaskede")
         print("6. Avslutt programmet")
-        tall = int(input("Velg en option, skriv inn et tall fra 1-5:"))
+        tall = int(input("Velg en option, skriv inn et tall fra 1-5: "))
         
         if(tall == 1):
             print("Test1")
@@ -29,7 +29,7 @@ def main():
             break
         
         elif(tall == 4):
-            keyword = input('hvilket nøkkelord vil du søke etter?')
+            keyword = input('Hvilket nøkkelord vil du søke etter? ')
             getCoffeByKeyWord(keyword)
             break
         
@@ -96,7 +96,7 @@ def getCoffeByKeyWord(keyword):
     
     row = cursor.fetchall()
     if len(row) == 0:
-        print("Det var ingen kaffer som stemte med søket ditt")
+        print("Det var ingen kaffer som stemte med søket ditt etter '" + keyword[1:-1] + "'")
 
     else:
         print(row)
